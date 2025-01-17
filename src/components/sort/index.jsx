@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export const Sort = () => {
+export const Sort = ({ sortType, onClickSortType }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [sellected, setSellected] = useState(0);
-  const sortCategories = ['popularity', 'price', 'alphabet'];
-  const selectedCategory = sortCategories[sellected];
+  const sortCategories = ['rating', 'price', 'title'];
 
   const handleOpenPopUp = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleCategory = (index) => {
-    setSellected(index);
+  const handleCategory = (value) => {
+    onClickSortType(value);
   };
+
+  useEffect(() => {
+    handleCategory(sortCategories[0]);
+  }, []);
 
   return (
     <div className="sort" onClick={handleOpenPopUp}>
@@ -29,16 +31,16 @@ export const Sort = () => {
           />
         </svg>
         <b>Sort by:</b>
-        <span>{selectedCategory}</span>
+        <span>{sortType}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {sortCategories.map((category, index) => (
+            {sortCategories.map((category) => (
               <li
                 key={category}
-                className={sellected === index ? 'active' : ''}
-                onClick={() => handleCategory(index)}>
+                className={sortType === category ? 'active' : ''}
+                onClick={() => handleCategory(category)}>
                 {category}
               </li>
             ))}

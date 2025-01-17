@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Category } from '../category';
-import { pizzaTypes } from '../../pizza-data/pizzaTypes';
+import { pizzaCategories } from '../../pizza-data/pizzaCategories';
 
-export const Categories = () => {
-  const [current, setCurrent] = useState(0);
-
+export const Categories = ({ categoryId, onClickCategory }) => {
   const handleActiveCategory = (index) => {
-    setCurrent(index);
+    onClickCategory(index);
   };
+
   return (
     <div className="categories">
       <ul>
-        {pizzaTypes.map((type, index) => (
+        {pizzaCategories.map((type, index) => (
           <Category
             key={type}
-            className={current === index ? 'active' : ''}
+            className={categoryId === index ? 'active' : ''}
             title={type}
             onClick={() => handleActiveCategory(index)}
           />
