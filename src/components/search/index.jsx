@@ -9,8 +9,8 @@ const Search = () => {
   const { setSearchingValue } = useContext(SearchContext);
 
   const updateGlobalSearchingValue = useCallback(
-    debounce((str) => {
-      setSearchingValue(str);
+    debounce((value) => {
+      setSearchingValue(value);
     }, 250),
     [],
   );

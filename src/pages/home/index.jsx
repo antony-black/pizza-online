@@ -14,16 +14,11 @@ export const Home = () => {
   const { searchingValue } = useContext(SearchContext);
   const [pizzaItems, setPizzaItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
+  const itemsPerPage = 4;
 
   // TODO: add choosing by DESC/ASC
-  // const getUrl = () => {
-  //   const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
-  //   const sortQuery = sortType ? `sortBy=${sortType}&order=desc` : '';
-  //   const searchQuery = searchingValue ? `search=${searchingValue}` : '';
-
-  //   return `${API_URLS.items}?page=${currentPage}&limit=4&${categoryQuery}&${sortQuery}&${searchQuery}`;
-  // };
-
   const getUrl = () => {
     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
     const sortQuery = sortType ? `sortBy=${sortType}&order=desc` : '';
@@ -36,6 +31,25 @@ export const Home = () => {
   const { data: pizzaData, pending: pizzaPending, errorMsg } = useFetch(getUrl(), {});
 
   const pizza = pizzaItems.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+
+  useEffect(() => {
+    const fetchTotalCount = async () => {
+      try {
+        const response = await FetchService.getAllData(API_URLS.items);
+        setTotalCount(response.data.length);
+      } catch (error) {
+        console.error('Error fetching total count:', error.message);
+        return 0;
+      }
+    };
+    fetchTotalCount();
+  }, []);
+
+  useEffect(() => {
+    if (totalCount > 0) {
+      setPageCount(Math.ceil(totalCount / itemsPerPage));
+    }
+  }, [totalCount]);
 
   useEffect(() => {
     if (!!pizzaData) {
@@ -54,7 +68,11 @@ export const Home = () => {
         {/* {errorMsg ? <div className="content__error-info">{`${errorMsg}!!!`}</div> : null} */}
         {pizzaPending ? FetchService.createLoadingShadow() : pizza}
       </div>
-      <Pagination onPageChange={(number) => setCurrentPage(number)} />
+      <Pagination
+        itemsPerPage={itemsPerPage}
+        pageCount={pageCount}
+        onPageChange={(number) => setCurrentPage(number)}
+      />
     </>
   );
 };
