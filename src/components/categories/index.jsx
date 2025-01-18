@@ -1,11 +1,12 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../../redux/slices/filterSlice';
 import { Category } from '../category';
 import { pizzaCategories } from '../../pizza-data/pizzaCategories';
 
-export const Categories = ({ categoryId, onClickCategory }) => {
-  const handleActiveCategory = (index) => {
-    onClickCategory(index);
-  };
+export const Categories = () => {
+  const category = useSelector((state) => state.filter?.categoryId || 0);
+  const dispatch = useDispatch();
 
   return (
     <div className="categories">
@@ -13,9 +14,9 @@ export const Categories = ({ categoryId, onClickCategory }) => {
         {pizzaCategories.map((type, index) => (
           <Category
             key={type}
-            className={categoryId === index ? 'active' : ''}
+            className={category === index ? 'active' : ''}
             title={type}
-            onClick={() => handleActiveCategory(index)}
+            onClick={() => dispatch(setCategoryId(index))}
           />
         ))}
       </ul>

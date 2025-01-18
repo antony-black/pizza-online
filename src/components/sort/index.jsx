@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setType } from '../../redux/slices/filterSlice';
 
-export const Sort = ({ sortType, onClickSortType }) => {
+export const Sort = () => {
+  const sort = useSelector((state) => state.filter?.sortType || '');
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const sortCategories = ['rating', 'price', 'title'];
 
@@ -8,12 +12,13 @@ export const Sort = ({ sortType, onClickSortType }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleCategory = (value) => {
-    onClickSortType(value);
-  };
+  // const handleCategory = (value) => {
+  //   onClickSortType(value);
+  // };
 
   useEffect(() => {
-    handleCategory(sortCategories[0]);
+    dispatch(setType(sortCategories[0]))
+    // handleCategory(sortCategories[0]);
   }, []);
 
   return (
@@ -31,7 +36,7 @@ export const Sort = ({ sortType, onClickSortType }) => {
           />
         </svg>
         <b>Sort by:</b>
-        <span>{sortType}</span>
+        <span>{sort}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
@@ -39,8 +44,8 @@ export const Sort = ({ sortType, onClickSortType }) => {
             {sortCategories.map((category) => (
               <li
                 key={category}
-                className={sortType === category ? 'active' : ''}
-                onClick={() => handleCategory(category)}>
+                className={sort === category ? 'active' : ''}
+                onClick={() => dispatch(setType(category))}>
                 {category}
               </li>
             ))}

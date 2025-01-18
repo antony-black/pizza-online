@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Categories } from '../../components/categories';
 import { PizzaBlock } from '../../components/pizza-block';
 import { Sort } from '../../components/sort';
@@ -9,10 +10,9 @@ import Pagination from '../../components/pagination';
 import { SearchContext } from '../../App';
 
 export const Home = () => {
-  const {searchingValue} = useContext(SearchContext);
+  const {categoryId, sortType} = useSelector((state) => state.filter);
+  const { searchingValue } = useContext(SearchContext);
   const [pizzaItems, setPizzaItems] = useState([]);
-  const [categoryId, setCategoryId] = useState(0);
-  const [sortType, setSortType] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   // TODO: add choosing by DESC/ASC
@@ -32,28 +32,20 @@ export const Home = () => {
     if (!!pizzaData) {
       setPizzaItems(pizzaData);
     }
-  }, [pizzaData, sortType, searchingValue, currentPage]);
-
-  const onClickCategory = (index) => {
-    setCategoryId(index);
-  };
-
-  const onClickSortType = (value) => {
-    setSortType(value);
-  };
+  }, [pizzaData, categoryId, sortType, searchingValue, currentPage]);
 
   return (
     <>
       <div className="content__top">
-        <Categories categoryId={categoryId} onClickCategory={onClickCategory} />
-        <Sort sortType={sortType} onClickSortType={onClickSortType} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">All pizza:</h2>
       <div className="content__items">
         {errorMsg ? <div className="content__error-info">{`${errorMsg}!!!`}</div> : null}
         {pizzaPending ? FetchService.createLoadingShadow() : pizza}
       </div>
-      <Pagination onPageChange={number => setCurrentPage(number)}/>
+      <Pagination onPageChange={(number) => setCurrentPage(number)} />
     </>
   );
 };
