@@ -10,18 +10,27 @@ import Pagination from '../../components/pagination';
 import { SearchContext } from '../../App';
 
 export const Home = () => {
-  const {categoryId, sortType} = useSelector((state) => state.filter);
+  const { categoryId, sortType } = useSelector((state) => state.filter);
   const { searchingValue } = useContext(SearchContext);
   const [pizzaItems, setPizzaItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   // TODO: add choosing by DESC/ASC
+  // const getUrl = () => {
+  //   const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
+  //   const sortQuery = sortType ? `sortBy=${sortType}&order=desc` : '';
+  //   const searchQuery = searchingValue ? `search=${searchingValue}` : '';
+
+  //   return `${API_URLS.items}?page=${currentPage}&limit=4&${categoryQuery}&${sortQuery}&${searchQuery}`;
+  // };
+
   const getUrl = () => {
     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
     const sortQuery = sortType ? `sortBy=${sortType}&order=desc` : '';
     const searchQuery = searchingValue ? `search=${searchingValue}` : '';
+    const queryParams = [categoryQuery, sortQuery, searchQuery].filter(Boolean).join('&');
 
-    return `${API_URLS.items}?page=${currentPage}&limit=4&${categoryQuery}&${sortQuery}&${searchQuery}`;
+    return `${API_URLS.items}?page=${currentPage}&limit=4&${queryParams}`;
   };
 
   const { data: pizzaData, pending: pizzaPending, errorMsg } = useFetch(getUrl(), {});
@@ -42,7 +51,7 @@ export const Home = () => {
       </div>
       <h2 className="content__title">All pizza:</h2>
       <div className="content__items">
-        {errorMsg ? <div className="content__error-info">{`${errorMsg}!!!`}</div> : null}
+        {/* {errorMsg ? <div className="content__error-info">{`${errorMsg}!!!`}</div> : null} */}
         {pizzaPending ? FetchService.createLoadingShadow() : pizza}
       </div>
       <Pagination onPageChange={(number) => setCurrentPage(number)} />
