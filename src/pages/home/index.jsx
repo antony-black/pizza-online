@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import qs from 'qs';
 import { Categories } from '../../components/categories';
 import { PizzaBlock } from '../../components/pizza-block';
 import { Sort } from '../../components/sort';
@@ -10,10 +12,11 @@ import Pagination from '../../components/pagination';
 import { SearchContext } from '../../App';
 
 export const Home = () => {
+  const navigate = useNavigate();
+  const page = useSelector((state) => state.pagination.currentPage);
   const { categoryId, sortType } = useSelector((state) => state.filter);
   const { searchingValue } = useContext(SearchContext);
   const [pizzaItems, setPizzaItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 4;
@@ -23,9 +26,11 @@ export const Home = () => {
     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
     const sortQuery = sortType ? `sortBy=${sortType}&order=desc` : '';
     const searchQuery = searchingValue ? `search=${searchingValue}` : '';
-    const queryParams = [categoryQuery, sortQuery, searchQuery].filter(Boolean).join('&');
 
-    return `${API_URLS.items}?page=${currentPage}&limit=4&${queryParams}`;
+    const queryParams = [categoryQuery, sortQuery, searchQuery].filter(Boolean).join('&');
+// console.log(`${API_URLS.items}?page=${page}&limit=${itemsPerPage}&${queryParams}`);
+
+    return `${API_URLS.items}?page=${page}&limit=${itemsPerPage}&${queryParams}`;
   };
 
   const { data: pizzaData, pending: pizzaPending, errorMsg } = useFetch(getUrl(), {});
@@ -55,7 +60,11 @@ export const Home = () => {
     if (!!pizzaData) {
       setPizzaItems(pizzaData);
     }
-  }, [pizzaData, categoryId, sortType, searchingValue, currentPage]);
+  }, [pizzaData]);
+
+  useEffect(() => {
+    navigate()
+  },[]);
 
   return (
     <>
@@ -65,13 +74,11 @@ export const Home = () => {
       </div>
       <h2 className="content__title">All pizza:</h2>
       <div className="content__items">
-        {/* {errorMsg ? <div className="content__error-info">{`${errorMsg}!!!`}</div> : null} */}
         {pizzaPending ? FetchService.createLoadingShadow() : pizza}
       </div>
       <Pagination
         itemsPerPage={itemsPerPage}
         pageCount={pageCount}
-        onPageChange={(number) => setCurrentPage(number)}
       />
     </>
   );

@@ -12,13 +12,8 @@ export const Sort = () => {
     setIsOpen(!isOpen);
   };
 
-  // const handleCategory = (value) => {
-  //   onClickSortType(value);
-  // };
-
   useEffect(() => {
     dispatch(setType(sortCategories[0]))
-    // handleCategory(sortCategories[0]);
   }, []);
 
   return (
