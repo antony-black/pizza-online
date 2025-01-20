@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setType } from '../../redux/slices/filterSlice';
+import useOutsideClick from '../../hooks/useOutsideClick';
 
 export const Sort = () => {
   const sort = useSelector((state) => state.filter?.sortType || '');
   const dispatch = useDispatch();
+  const refModal = useRef();
   const [isOpen, setIsOpen] = useState(false);
+  useOutsideClick(refModal, () => setIsOpen(false));
   const sortCategories = ['rating', 'price', 'title'];
 
   const handleOpenPopUp = () => {
@@ -13,11 +16,11 @@ export const Sort = () => {
   };
 
   useEffect(() => {
-    dispatch(setType(sortCategories[0]))
+    dispatch(setType(sortCategories[0]));
   }, []);
 
   return (
-    <div className="sort" onClick={handleOpenPopUp}>
+    <div ref={refModal} className="sort" onClick={handleOpenPopUp}>
       <div className="sort__label">
         <svg
           width="10"

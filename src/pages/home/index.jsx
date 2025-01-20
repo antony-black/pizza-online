@@ -1,6 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilters } from '../../redux/slices/filterSlice';
 import qs from 'qs';
 import { Categories } from '../../components/categories';
 import { PizzaBlock } from '../../components/pizza-block';
@@ -13,12 +14,15 @@ import { SearchContext } from '../../App';
 
 export const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const page = useSelector((state) => state.pagination.currentPage);
   const { categoryId, sortType } = useSelector((state) => state.filter);
   const { searchingValue } = useContext(SearchContext);
   const [pizzaItems, setPizzaItems] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
+  const isSearch = useRef(false);
+  const isMounted = useRef(false);
   const itemsPerPage = 4;
 
   // TODO: add choosing by DESC/ASC
@@ -28,7 +32,7 @@ export const Home = () => {
     const searchQuery = searchingValue ? `search=${searchingValue}` : '';
 
     const queryParams = [categoryQuery, sortQuery, searchQuery].filter(Boolean).join('&');
-// console.log(`${API_URLS.items}?page=${page}&limit=${itemsPerPage}&${queryParams}`);
+    // console.log(`${API_URLS.items}?page=${page}&limit=${itemsPerPage}&${queryParams}`);
 
     return `${API_URLS.items}?page=${page}&limit=${itemsPerPage}&${queryParams}`;
   };
@@ -36,6 +40,17 @@ export const Home = () => {
   const { data: pizzaData, pending: pizzaPending, errorMsg } = useFetch(getUrl(), {});
 
   const pizza = pizzaItems.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      console.log('params: >>>>', { ...params });
+
+      dispatch(setFilters({ ...params }));
+
+      isSearch.current = true;
+    }
+  }, []);
 
   useEffect(() => {
     const fetchTotalCount = async () => {
@@ -57,14 +72,28 @@ export const Home = () => {
   }, [totalCount]);
 
   useEffect(() => {
-    if (!!pizzaData) {
-      setPizzaItems(pizzaData);
+    if (!isSearch.current) {
+      console.log('HERE >>>>', isSearch.current);
+      
+      if (!!pizzaData) {
+        setPizzaItems(pizzaData);
+      }
     }
+
+    isSearch.current = false;
   }, [pizzaData]);
 
   useEffect(() => {
-    navigate()
-  },[]);
+   if(isMounted.current) {
+    const queryString = qs.stringify({
+      sortType,
+      categoryId,
+      page,
+    });
+    navigate(`?${queryString}`);
+   }
+    isMounted.current = true;
+  }, [sortType, categoryId, page]);
 
   return (
     <>
@@ -76,10 +105,7 @@ export const Home = () => {
       <div className="content__items">
         {pizzaPending ? FetchService.createLoadingShadow() : pizza}
       </div>
-      <Pagination
-        itemsPerPage={itemsPerPage}
-        pageCount={pageCount}
-      />
+      <Pagination itemsPerPage={itemsPerPage} pageCount={pageCount} />
     </>
   );
 };
