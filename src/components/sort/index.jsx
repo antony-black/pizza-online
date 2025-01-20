@@ -6,9 +6,9 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 export const Sort = () => {
   const sort = useSelector((state) => state.filter?.sortType || '');
   const dispatch = useDispatch();
-  const refModal = useRef();
+  const refSort = useRef();
   const [isOpen, setIsOpen] = useState(false);
-  useOutsideClick(refModal, () => setIsOpen(false));
+  useOutsideClick(refSort, () => setIsOpen(false));
   const sortCategories = ['rating', 'price', 'title'];
 
   const handleOpenPopUp = () => {
@@ -20,7 +20,7 @@ export const Sort = () => {
   }, []);
 
   return (
-    <div ref={refModal} className="sort" onClick={handleOpenPopUp}>
+    <div ref={refSort} className="sort" onClick={handleOpenPopUp}>
       <div className="sort__label">
         <svg
           width="10"

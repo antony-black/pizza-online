@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { CartItem } from '../../components/cart-item';
 import { Link } from 'react-router-dom';
 
 export const Cart = () => {
+  const {allPizza, totalPrice} = useSelector(state => state.cart);
   const [cartItems, setCartItems] = useState([]);
   return (
     <div class="cart">
@@ -88,10 +90,10 @@ export const Cart = () => {
       <div class="cart__bottom">
         <div class="cart__bottom-details">
           <span>
-            Amount of pizza: <b>3 шт.</b>
+            Amount of pizza: <b>{allPizza.length}</b>
           </span>
           <span>
-            Total: <b>13$</b>
+            Total: <b>{parseFloat(totalPrice.toFixed(2))}$</b>
           </span>
         </div>
         <div class="cart__bottom-buttons">

@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTotalPrice, addPizza } from '../../redux/slices/cartSlice';
 
-export const PizzaBlock = ({ title, types, sizes, price, category, rating }) => {
-  const [amount, setAmount] = useState(0);
+export const PizzaBlock = ({ id, title, types, sizes, price, category, rating }) => {
+  const { allPizza } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   const [currentSize, setCurrentSize] = useState(0);
   const [currentThickness, setCurrentThickness] = useState(0);
   const thicknessTypes = ['think', 'tradition'];
+  const pizzaToCart = {
+    id,
+    title,
+    price,
+    types: currentThickness,
+    sizes: currentSize,
+  };
+
+  const amount = allPizza.filter((pizza) => pizza.id === id).length;
 
   const handleAdd = () => {
-    setAmount(amount + 1);
+    dispatch(setTotalPrice(price));
+    dispatch(addPizza(pizzaToCart));
   };
 
   const handleThickness = (value) => {
@@ -50,7 +63,7 @@ export const PizzaBlock = ({ title, types, sizes, price, category, rating }) => 
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">{`from ${price}$`}</div>
-        <button className="button button--outline button--add" onClick={handleAdd}>
+        <button className="button button--outline button--add" onClick={() => handleAdd(price)}>
           <svg
             width="12"
             height="12"
