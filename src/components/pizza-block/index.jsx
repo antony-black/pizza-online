@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setTotalPrice, addPizza } from '../../redux/slices/cartSlice';
 
 export const PizzaBlock = ({ id, title, types, sizes, price, category, rating }) => {
-  const { allPizza } = useSelector((state) => state.cart);
+  const cartPizza = useSelector(
+    (state) => state.cart.allPizza.find((pizza) => pizza.id === id),
+  );
+  const amount = cartPizza ? cartPizza.count : 0;
   const dispatch = useDispatch();
   const [currentSize, setCurrentSize] = useState(0);
   const [currentThickness, setCurrentThickness] = useState(0);
@@ -12,11 +15,9 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
     id,
     title,
     price,
-    types: currentThickness,
+    types: thicknessTypes[currentThickness],
     sizes: currentSize,
   };
-
-  const amount = allPizza.filter((pizza) => pizza.id === id).length;
 
   const handleAdd = () => {
     dispatch(setTotalPrice(price));
@@ -76,7 +77,7 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
             />
           </svg>
           <span>Add</span>
-          <i>{amount}</i>
+          {amount > 0 && <i>{amount}</i>}
         </button>
       </div>
     </div>

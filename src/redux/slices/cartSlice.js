@@ -11,11 +11,19 @@ const cartSlice = createSlice({
   reducers: {
     addPizza(state, action) {
       console.log('cart/addPizza: ', action);
-      state.allPizza.push(action.payload);
+      const existedPizza = state.allPizza.find((pizza) => pizza.id === action.payload.id);
+      if (existedPizza) {
+        existedPizza.count ++;
+      } else {
+        state.allPizza.push({
+          ...action.payload,
+          count: 1,
+        });
+      }
     },
     removePizza(state, action) {
       console.log('cart/removePizza: ', state, action);
-      state.allPizza.filter(pizza => pizza.id !== action.payload);
+      state.allPizza.filter((pizza) => pizza.id !== action.payload);
     },
     clearCart(state) {
       console.log('cart/clearCart: ', state);
@@ -25,7 +33,7 @@ const cartSlice = createSlice({
       console.log('cart/setTotalPrice: ', action.payload);
       state.totalPrice += action.payload;
       console.log('cart/setTotalPrice-2: ', state.totalPrice);
-    }
+    },
   },
 });
 
