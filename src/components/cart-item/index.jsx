@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setTotalPrice, addPizza, removePizza } from '../../redux/slices/cartSlice';
 
 export const CartItem = (pizza) => {
@@ -11,7 +11,7 @@ export const CartItem = (pizza) => {
   };
 
   const handleRemovePizza = () => {
-    if (pizza.count > 1) {
+    if (pizza.count >= 1) {
       dispatch(setTotalPrice(-pizza.price));
     }
     dispatch(removePizza(pizza.id));
