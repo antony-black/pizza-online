@@ -6,7 +6,7 @@ import Search from '../search';
 export const Header = () => {
   const {allPizza, totalPrice} = useSelector((state) => state.cart);
   const amount = allPizza.reduce((total, pizza) => total + pizza.count, 0);
-
+  
   return (
     <div className="header">
       <div className="container">

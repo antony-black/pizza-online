@@ -10,19 +10,14 @@ const filterSlice = createSlice({
   initialState,
   reducers: {
     setCategoryId(state, action) {
-      console.log('category: >>>>', state, action);
       state.categoryId = action.payload;
     },
     setType: (state, action) => {
-      console.log('sort: >>>>', state, action);
       state.sortType = action.payload;
     },
     setFilters(state, action) {
-      console.log('setFilters/action: >>>>', state, action);
       state.sortType = action.payload.sortType;
-      console.log('setFilters/sortType: >>>>', action.payload.sortType);
       state.categoryId = Number(action.payload.categoryId);
-      console.log('setFilters/categoryId: >>>>', Number(action.payload.categoryId));
     },
   },
 });

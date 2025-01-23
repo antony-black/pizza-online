@@ -16,10 +16,10 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
     title,
     price,
     types: thicknessTypes[currentThickness],
-    sizes: currentSize,
+    sizes: sizes[currentSize],
   };
 
-  const handleAdd = () => {
+  const handleAddPizza = () => {
     dispatch(setTotalPrice(price));
     dispatch(addPizza(pizzaToCart));
   };
@@ -64,7 +64,7 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">{`from ${price}$`}</div>
-        <button className="button button--outline button--add" onClick={() => handleAdd(price)}>
+        <button className="button button--outline button--add" onClick={() => handleAddPizza(price)}>
           <svg
             width="12"
             height="12"

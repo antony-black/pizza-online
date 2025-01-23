@@ -1,21 +1,41 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTotalPrice, addPizza, removePizza } from '../../redux/slices/cartSlice';
 
-export const CartItem = () => {
+export const CartItem = (pizza) => {
+  const dispatch = useDispatch();
+
+  const handleAddPizza = () => {
+    dispatch(setTotalPrice(pizza.price));
+    dispatch(addPizza(pizza));
+  };
+
+  const handleRemovePizza = () => {
+    if (pizza.count > 1) {
+      dispatch(setTotalPrice(-pizza.price));
+    }
+    dispatch(removePizza(pizza.id));
+  };
+
   return (
-    <div class="cart__item">
-      <div class="cart__item-img">
+    <div className="cart__item">
+      <div className="cart__item-img">
         <img
-          class="pizza-block__image"
+          className="pizza-block__image"
           src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
           alt="Pizza"
         />
       </div>
-      <div class="cart__item-info">
-        <h3>Сырный цыпленок</h3>
-        <p>тонкое тесто, 26 см.</p>
+      <div className="cart__item-info">
+        <h3>{pizza.title}</h3>
+        <p>
+          {pizza.types}, {pizza.sizes} sm
+        </p>
       </div>
-      <div class="cart__item-count">
-        <div class="button button--outline button--circle cart__item-count-minus">
+      <div className="cart__item-count">
+        <div
+          className="button button--outline button--circle cart__item-count-minus"
+          onClick={handleRemovePizza}>
           <svg
             width="10"
             height="10"
@@ -32,8 +52,10 @@ export const CartItem = () => {
             />
           </svg>
         </div>
-        <b>2</b>
-        <div class="button button--outline button--circle cart__item-count-plus">
+        <b>{pizza.count}</b>
+        <div
+          className="button button--outline button--circle cart__item-count-plus"
+          onClick={handleAddPizza}>
           <svg
             width="10"
             height="10"
@@ -51,11 +73,11 @@ export const CartItem = () => {
           </svg>
         </div>
       </div>
-      <div class="cart__item-price">
-        <b>770 ₽</b>
+      <div className="cart__item-price">
+        <b>{pizza.price} $</b>
       </div>
-      <div class="cart__item-remove">
-        <div class="button button--outline button--circle">
+      <div className="cart__item-remove">
+        <div className="button button--outline button--circle">
           <svg
             width="10"
             height="10"

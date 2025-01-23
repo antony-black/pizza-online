@@ -11,5 +11,3 @@ export const store = configureStore({
     cart: cartSlice,
   },
 });
-// console.log(store);
-// console.log(store.getState());

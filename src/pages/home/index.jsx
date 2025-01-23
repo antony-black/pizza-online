@@ -44,7 +44,6 @@ export const Home = () => {
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      console.log('params: >>>>', { ...params });
 
       dispatch(setFilters({ ...params }));
 
@@ -73,7 +72,6 @@ export const Home = () => {
 
   useEffect(() => {
     if (!isSearch.current) {
-      console.log('HERE >>>>', isSearch.current);
       
       if (!!pizzaData) {
         setPizzaItems(pizzaData);

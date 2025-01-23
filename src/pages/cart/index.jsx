@@ -5,10 +5,9 @@ import { Link } from 'react-router-dom';
 
 export const Cart = () => {
   const { allPizza, totalPrice } = useSelector((state) => state.cart);
-  const [cartItems, setCartItems] = useState([]);
 
   const amount = allPizza.reduce((total, pizza) => total + pizza.count, 0);
-
+  
   return (
     <div className="cart">
       <div className="cart__top">
@@ -84,8 +83,8 @@ export const Cart = () => {
         </div>
       </div>
       <div className="content__items">
-        {cartItems.length > 0 ? (
-          cartItems.map((item) => <CartItem key={item.id} {...item} />)
+        {allPizza.length > 0 ? (
+          allPizza.map((pizza) => <CartItem key={pizza.id} {...pizza} />)
         ) : (
           <img src="img/empty-cart.png" alt="empty cart" />
         )}

@@ -10,10 +10,9 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addPizza(state, action) {
-      console.log('cart/addPizza: ', action);
       const existedPizza = state.allPizza.find((pizza) => pizza.id === action.payload.id);
       if (existedPizza) {
-        existedPizza.count ++;
+        existedPizza.count++;
       } else {
         state.allPizza.push({
           ...action.payload,
@@ -22,17 +21,20 @@ const cartSlice = createSlice({
       }
     },
     removePizza(state, action) {
-      console.log('cart/removePizza: ', state, action);
-      state.allPizza.filter((pizza) => pizza.id !== action.payload);
+      const pizzaIndex = state.allPizza.findIndex((pizza) => pizza.id === action.payload);
+      if (pizzaIndex !== -1) {
+        if (state.allPizza[pizzaIndex].count > 1) {
+          state.allPizza[pizzaIndex].count--;
+        } else {
+          state.allPizza.splice(pizzaIndex, 1);
+        }
+      }
     },
     clearCart(state) {
-      console.log('cart/clearCart: ', state);
       state.allPizza = [];
     },
     setTotalPrice(state, action) {
-      console.log('cart/setTotalPrice: ', action.payload);
       state.totalPrice += action.payload;
-      console.log('cart/setTotalPrice-2: ', state.totalPrice);
     },
   },
 });
