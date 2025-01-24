@@ -20,7 +20,8 @@ const cartSlice = createSlice({
         });
       }
     },
-    removePizza(state, action) {
+
+    reducePizza(state, action) {
       const pizzaIndex = state.allPizza.findIndex((pizza) => pizza.id === action.payload);
       if (pizzaIndex !== -1) {
         if (state.allPizza[pizzaIndex].count > 1) {
@@ -30,15 +31,25 @@ const cartSlice = createSlice({
         }
       }
     },
+
+    removePizza(state, action) {
+      state.allPizza = state.allPizza.filter((pizza) => pizza.id !== action.payload);
+    },
+
     clearCart(state) {
       state.allPizza = [];
     },
-    setTotalPrice(state, action) {
-      state.totalPrice += action.payload;
+
+    setTotalPrice(state) {
+      const price = state.allPizza.reduce(
+        (total, pizza) => pizza.price * pizza.count + total,
+        0,
+      );
+      state.totalPrice = parseFloat(price.toFixed(2))
     },
   },
 });
 
-export const { addPizza, removePizza, clearCart, setTotalPrice } = cartSlice.actions;
+export const { addPizza, reducePizza, removePizza, clearCart, setTotalPrice } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTotalPrice, addPizza } from '../../redux/slices/cartSlice';
+import { addPizza, setTotalPrice } from '../../redux/slices/cartSlice';
 
 export const PizzaBlock = ({ id, title, types, sizes, price, category, rating }) => {
   const cartPizza = useSelector(
@@ -20,8 +20,8 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
   };
 
   const handleAddPizza = () => {
-    dispatch(setTotalPrice(price));
     dispatch(addPizza(pizzaToCart));
+    dispatch(setTotalPrice());
   };
 
   const handleThickness = (value) => {

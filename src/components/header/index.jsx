@@ -20,7 +20,7 @@ export const Header = () => {
         <Search />
         <div className="header__cart">
           <Link to={'/cart'} className="button button--cart">
-            <span>{parseFloat(totalPrice.toFixed(2))}</span>
+            <span>{totalPrice}</span>
             <div className="button__delimiter"></div>
             <svg
               width="18"

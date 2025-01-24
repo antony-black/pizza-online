@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearCart, setTotalPrice } from '../../redux/slices/cartSlice';
+import { clearCart,setTotalPrice } from '../../redux/slices/cartSlice';
 import { CartItem } from '../../components/cart-item';
 import { Link } from 'react-router-dom';
 
@@ -11,8 +11,8 @@ export const Cart = () => {
   const amount = allPizza.reduce((total, pizza) => total + pizza.count, 0);
 
   const handleClearCart = () => {
-    dispatch(setTotalPrice(-totalPrice));
     dispatch(clearCart());
+    dispatch(setTotalPrice());
   };
 
   return (
@@ -103,7 +103,7 @@ export const Cart = () => {
             Amount of pizza: <b>{amount}</b>
           </span>
           <span>
-            Total: <b>{parseFloat(totalPrice.toFixed(2))}$</b>
+            Total: <b>{totalPrice}$</b>
           </span>
         </div>
         <div className="cart__bottom-buttons">

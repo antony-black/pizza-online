@@ -1,20 +1,25 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { setTotalPrice, addPizza, removePizza } from '../../redux/slices/cartSlice';
+import { addPizza, reducePizza, removePizza, setTotalPrice } from '../../redux/slices/cartSlice';
 
 export const CartItem = (pizza) => {
   const dispatch = useDispatch();
 
+  const price = parseFloat((pizza.price * pizza.count).toFixed(2));
+
   const handleAddPizza = () => {
-    dispatch(setTotalPrice(pizza.price));
     dispatch(addPizza(pizza));
+    dispatch(setTotalPrice());
+  };
+
+  const handleReducePizza = () => {
+    dispatch(reducePizza(pizza.id));
+    dispatch(setTotalPrice());
   };
 
   const handleRemovePizza = () => {
-    if (pizza.count >= 1) {
-      dispatch(setTotalPrice(-pizza.price));
-    }
     dispatch(removePizza(pizza.id));
+    dispatch(setTotalPrice());
   };
 
   return (
@@ -35,7 +40,7 @@ export const CartItem = (pizza) => {
       <div className="cart__item-count">
         <div
           className="button button--outline button--circle cart__item-count-minus"
-          onClick={handleRemovePizza}>
+          onClick={handleReducePizza}>
           <svg
             width="10"
             height="10"
@@ -74,9 +79,9 @@ export const CartItem = (pizza) => {
         </div>
       </div>
       <div className="cart__item-price">
-        <b>{pizza.price} $</b>
+        <b>{price} $</b>
       </div>
-      <div className="cart__item-remove">
+      <div className="cart__item-remove" onClick={handleRemovePizza}>
         <div className="button button--outline button--circle">
           <svg
             width="10"
