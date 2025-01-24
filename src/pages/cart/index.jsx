@@ -95,7 +95,9 @@ export const Cart = () => {
         )}
       </div>
       <div className="content__items">
-        {allPizza.map((pizza) => <CartItem key={pizza.id} {...pizza} />)}
+        {allPizza.map((pizza) => (
+          <CartItem key={`${pizza.id}${pizza.type}${pizza.size}`} {...pizza} />
+        ))}
       </div>
       <div className="cart__bottom">
         <div className="cart__bottom-details">

@@ -8,17 +8,17 @@ export const CartItem = (pizza) => {
   const price = parseFloat((pizza.price * pizza.count).toFixed(2));
 
   const handleAddPizza = () => {
-    dispatch(addPizza({id: pizza.id}));
+    dispatch(addPizza(pizza));
     dispatch(setTotalPrice());
   };
 
   const handleReducePizza = () => {
-    dispatch(reducePizza(pizza.id));
+    dispatch(reducePizza(pizza));
     dispatch(setTotalPrice());
   };
 
   const handleRemovePizza = () => {
-    dispatch(removePizza(pizza.id));
+    dispatch(removePizza(pizza));
     dispatch(setTotalPrice());
   };
 
@@ -34,7 +34,7 @@ export const CartItem = (pizza) => {
       <div className="cart__item-info">
         <h3>{pizza.title}</h3>
         <p>
-          {pizza.types}, {pizza.sizes} sm
+          {pizza.type}, {pizza.size} sm
         </p>
       </div>
       <div className="cart__item-count">

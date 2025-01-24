@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPizza, setTotalPrice } from '../../redux/slices/cartSlice';
 
 export const PizzaBlock = ({ id, title, types, sizes, price, category, rating }) => {
-  const cartPizza = useSelector(
-    (state) => state.cart.allPizza.find((pizza) => pizza.id === id),
+  const similarPizza = useSelector((state) =>
+    state.cart.allPizza.filter((pizza) => pizza.id === id),
   );
-  const amount = cartPizza ? cartPizza.count : 0;
+
+  const amount = similarPizza.reduce((total, pizza) => total + pizza.count, 0);
+
   const dispatch = useDispatch();
   const [currentSize, setCurrentSize] = useState(0);
   const [currentThickness, setCurrentThickness] = useState(0);
@@ -15,8 +17,8 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
     id,
     title,
     price,
-    types: thicknessTypes[currentThickness],
-    sizes: sizes[currentSize],
+    type: thicknessTypes[currentThickness],
+    size: sizes[currentSize],
   };
 
   const handleAddPizza = () => {
@@ -64,7 +66,9 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">{`from ${price}$`}</div>
-        <button className="button button--outline button--add" onClick={() => handleAddPizza(price)}>
+        <button
+          className="button button--outline button--add"
+          onClick={() => handleAddPizza(price)}>
           <svg
             width="12"
             height="12"

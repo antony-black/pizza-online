@@ -10,7 +10,12 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addPizza(state, action) {
-      const existedPizza = state.allPizza.find((pizza) => pizza.id === action.payload.id);
+      const existedPizza = state.allPizza.find(
+        (pizza) =>
+          pizza.id === action.payload.id &&
+          pizza.size === action.payload.size &&
+          pizza.type === action.payload.type,
+      );
       if (existedPizza) {
         existedPizza.count++;
       } else {
@@ -22,7 +27,12 @@ const cartSlice = createSlice({
     },
 
     reducePizza(state, action) {
-      const pizzaIndex = state.allPizza.findIndex((pizza) => pizza.id === action.payload);
+      const pizzaIndex = state.allPizza.findIndex(
+        (pizza) =>
+          pizza.id === action.payload.id &&
+          pizza.size === action.payload.size &&
+          pizza.type === action.payload.type,
+      );
       if (pizzaIndex !== -1 && state.allPizza[pizzaIndex].count > 1) {
         state.allPizza[pizzaIndex].count--;
       } else {
@@ -31,7 +41,14 @@ const cartSlice = createSlice({
     },
 
     removePizza(state, action) {
-      state.allPizza = state.allPizza.filter((pizza) => pizza.id !== action.payload);
+      state.allPizza = state.allPizza.filter(
+        (pizza) =>
+          !(
+            pizza.id === action.payload.id &&
+            pizza.size === action.payload.size &&
+            pizza.type === action.payload.type
+          ),
+      );
     },
 
     clearCart(state) {
