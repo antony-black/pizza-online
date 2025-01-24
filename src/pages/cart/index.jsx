@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearCart,setTotalPrice } from '../../redux/slices/cartSlice';
+import { clearCart } from '../../redux/slices/cartSlice';
 import { CartItem } from '../../components/cart-item';
 import { Link } from 'react-router-dom';
+import { CartEmpty } from '../../components/cart-empty';
 
 export const Cart = () => {
   const dispatch = useDispatch();
@@ -12,8 +13,11 @@ export const Cart = () => {
 
   const handleClearCart = () => {
     dispatch(clearCart());
-    dispatch(setTotalPrice());
   };
+
+  if (!totalPrice) {
+    return <CartEmpty />;
+  }
 
   return (
     <div className="cart">
@@ -91,11 +95,7 @@ export const Cart = () => {
         )}
       </div>
       <div className="content__items">
-        {allPizza.length > 0 ? (
-          allPizza.map((pizza) => <CartItem key={pizza.id} {...pizza} />)
-        ) : (
-          <img src="img/empty-cart.png" alt="empty cart" />
-        )}
+        {allPizza.map((pizza) => <CartItem key={pizza.id} {...pizza} />)}
       </div>
       <div className="cart__bottom">
         <div className="cart__bottom-details">

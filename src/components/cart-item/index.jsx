@@ -8,7 +8,7 @@ export const CartItem = (pizza) => {
   const price = parseFloat((pizza.price * pizza.count).toFixed(2));
 
   const handleAddPizza = () => {
-    dispatch(addPizza(pizza));
+    dispatch(addPizza({id: pizza.id}));
     dispatch(setTotalPrice());
   };
 

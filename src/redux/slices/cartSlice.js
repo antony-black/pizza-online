@@ -23,12 +23,10 @@ const cartSlice = createSlice({
 
     reducePizza(state, action) {
       const pizzaIndex = state.allPizza.findIndex((pizza) => pizza.id === action.payload);
-      if (pizzaIndex !== -1) {
-        if (state.allPizza[pizzaIndex].count > 1) {
-          state.allPizza[pizzaIndex].count--;
-        } else {
-          state.allPizza.splice(pizzaIndex, 1);
-        }
+      if (pizzaIndex !== -1 && state.allPizza[pizzaIndex].count > 1) {
+        state.allPizza[pizzaIndex].count--;
+      } else {
+        state.allPizza.splice(pizzaIndex, 1);
       }
     },
 
@@ -38,14 +36,12 @@ const cartSlice = createSlice({
 
     clearCart(state) {
       state.allPizza = [];
+      state.totalPrice = 0;
     },
 
     setTotalPrice(state) {
-      const price = state.allPizza.reduce(
-        (total, pizza) => pizza.price * pizza.count + total,
-        0,
-      );
-      state.totalPrice = parseFloat(price.toFixed(2))
+      const price = state.allPizza.reduce((total, pizza) => pizza.price * pizza.count + total, 0);
+      state.totalPrice = parseFloat(price.toFixed(2));
     },
   },
 });
