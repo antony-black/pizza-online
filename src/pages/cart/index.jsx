@@ -7,9 +7,9 @@ import { CartEmpty } from '../../components/cart-empty';
 
 export const Cart = () => {
   const dispatch = useDispatch();
-  const { allPizza, totalPrice } = useSelector((state) => state.cart);
+  const { allCartPizza, totalPrice } = useSelector((state) => state.cart);
 
-  const amount = allPizza.reduce((total, pizza) => total + pizza.count, 0);
+  const amount = allCartPizza.reduce((total, pizza) => total + pizza.count, 0);
 
   const handleClearCart = () => {
     dispatch(clearCart());
@@ -95,7 +95,7 @@ export const Cart = () => {
         )}
       </div>
       <div className="content__items">
-        {allPizza.map((pizza) => (
+        {allCartPizza.map((pizza) => (
           <CartItem key={`${pizza.id}${pizza.type}${pizza.size}`} {...pizza} />
         ))}
       </div>

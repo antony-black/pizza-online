@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPizza, setTotalPrice } from '../../redux/slices/cartSlice';
 
 export const PizzaBlock = ({ id, title, types, sizes, price, category, rating }) => {
-  const similarPizza = useSelector((state) =>
-    state.cart.allPizza.filter((pizza) => pizza.id === id),
-  );
-
+  const { allCartPizza } = useSelector((state) => state.cart);
+  const similarPizza = allCartPizza.filter((pizza) => pizza.id === id);
   const amount = similarPizza.reduce((total, pizza) => total + pizza.count, 0);
 
   const dispatch = useDispatch();

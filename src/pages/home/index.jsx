@@ -1,12 +1,13 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilters } from '../../redux/slices/filterSlice';
+import { fetchPizza, selectPizzaData } from '../../redux/slices/pizzaSlice';
+import { selectFilter, setFilters } from '../../redux/slices/filterSlice';
 import qs from 'qs';
 import { Categories } from '../../components/categories';
 import { PizzaBlock } from '../../components/pizza-block';
 import { Sort } from '../../components/sort';
-import useFetch from '../../hooks/useFetch';
+import Error from '../../components/error';
 import { FetchService } from '../../services/FetchService';
 import { API_URLS } from '../../api/URL';
 import Pagination from '../../components/pagination';
@@ -15,10 +16,10 @@ import { SearchContext } from '../../App';
 export const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { allPizza, status } = useSelector(selectPizzaData);
   const page = useSelector((state) => state.pagination.currentPage);
-  const { categoryId, sortType } = useSelector((state) => state.filter);
+  const { categoryId, sortType } = useSelector(selectFilter);
   const { searchingValue } = useContext(SearchContext);
-  const [pizzaItems, setPizzaItems] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const isSearch = useRef(false);
@@ -32,14 +33,12 @@ export const Home = () => {
     const searchQuery = searchingValue ? `search=${searchingValue}` : '';
 
     const queryParams = [categoryQuery, sortQuery, searchQuery].filter(Boolean).join('&');
-    // console.log(`${API_URLS.items}?page=${page}&limit=${itemsPerPage}&${queryParams}`);
 
     return `${API_URLS.items}?page=${page}&limit=${itemsPerPage}&${queryParams}`;
   };
 
-  const { data: pizzaData, pending: pizzaPending, errorMsg } = useFetch(getUrl(), {});
-
-  const pizza = pizzaItems.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const pizza = allPizza.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+console.log(pizza);
 
   useEffect(() => {
     if (window.location.search) {
@@ -71,27 +70,26 @@ export const Home = () => {
   }, [totalCount]);
 
   useEffect(() => {
-    if (!isSearch.current) {
-      
-      if (!!pizzaData) {
-        setPizzaItems(pizzaData);
-      }
-    }
+    // if (!isSearch.current) {
+    // if (!!pizzaData) {
+    dispatch(fetchPizza({ url: getUrl() }));
+    // }
+    // }
 
-    isSearch.current = false;
-  }, [pizzaData]);
+    // isSearch.current = false;
+  }, []);
 
-  useEffect(() => {
-   if(isMounted.current) {
-    const queryString = qs.stringify({
-      sortType,
-      categoryId,
-      page,
-    });
-    navigate(`?${queryString}`);
-   }
-    isMounted.current = true;
-  }, [sortType, categoryId, page]);
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     const queryString = qs.stringify({
+  //       sortType,
+  //       categoryId,
+  //       page,
+  //     });
+  //     navigate(`?${queryString}`);
+  //   }
+  //   isMounted.current = true;
+  // }, [sortType, categoryId, page]);
 
   return (
     <>
@@ -101,7 +99,13 @@ export const Home = () => {
       </div>
       <h2 className="content__title">All pizza:</h2>
       <div className="content__items">
-        {pizzaPending ? FetchService.createLoadingShadow() : pizza}
+        {status === 'error' ? (
+          <Error />
+        ) : status === 'loading' ? (
+          FetchService.createLoadingShadow()
+        ) : (
+          pizza
+        )}
       </div>
       <Pagination itemsPerPage={itemsPerPage} pageCount={pageCount} />
     </>
