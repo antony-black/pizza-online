@@ -11,15 +11,13 @@ import Error from '../../components/error';
 import { FetchService } from '../../services/FetchService';
 import { API_URLS } from '../../api/URL';
 import Pagination from '../../components/pagination';
-import { SearchContext } from '../../App';
 
 export const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { allPizza, status } = useSelector(selectPizzaData);
   const page = useSelector((state) => state.pagination.currentPage);
-  const { categoryId, sortType } = useSelector(selectFilter);
-  const { searchingValue } = useContext(SearchContext);
+  const { categoryId, sortType, searchValue } = useSelector(selectFilter);
   const [totalCount, setTotalCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const isSearch = useRef(false);
@@ -30,7 +28,7 @@ export const Home = () => {
   const getUrl = () => {
     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
     const sortQuery = sortType ? `sortBy=${sortType}&order=desc` : '';
-    const searchQuery = searchingValue ? `search=${searchingValue}` : '';
+    const searchQuery = searchValue ? `search=${searchValue}` : '';
 
     const queryParams = [categoryQuery, sortQuery, searchQuery].filter(Boolean).join('&');
 
@@ -38,17 +36,16 @@ export const Home = () => {
   };
 
   const pizza = allPizza.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
-console.log(pizza);
 
-  useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+  // useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(window.location.search.substring(1));
 
-      dispatch(setFilters({ ...params }));
+  //     dispatch(setFilters({ ...params }));
 
-      isSearch.current = true;
-    }
-  }, []);
+  //     isSearch.current = true;
+  //   }
+  // }, []);
 
   useEffect(() => {
     const fetchTotalCount = async () => {
@@ -77,7 +74,7 @@ console.log(pizza);
     // }
 
     // isSearch.current = false;
-  }, []);
+  }, [categoryId, sortType, searchValue, page]);
 
   // useEffect(() => {
   //   if (isMounted.current) {
