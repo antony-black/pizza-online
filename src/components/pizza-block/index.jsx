@@ -19,6 +19,10 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
     size: sizes[currentSize],
   };
 
+  //rafce === const
+  //rfce === function
+  // vimbox, translation app
+
   const handleAddPizza = () => {
     dispatch(addPizza(pizzaToCart));
     dispatch(setTotalPrice());
