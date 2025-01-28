@@ -23,7 +23,7 @@ export const Home = () => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const itemsPerPage = 4;
-
+  
   // TODO: add choosing by DESC/ASC
   const getUrl = () => {
     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
