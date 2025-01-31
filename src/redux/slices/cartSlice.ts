@@ -1,6 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
+import { ICartPizza, ICartState } from '../../@types/cart';
 
-const initialState = {
+const initialState: ICartState = {
   allCartPizza: [],
   totalPrice: 0,
 };
@@ -9,7 +11,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addPizza(state, action) {
+    addPizza(state, action: PayloadAction<ICartPizza>) {
       const existedPizza = state.allCartPizza.find(
         (pizza) =>
           pizza.id === action.payload.id &&
@@ -21,27 +23,28 @@ const cartSlice = createSlice({
       } else {
         state.allCartPizza.push({
           ...action.payload,
-          count: 1,
         });
       }
-      // cartSlice.caseReducers.countTotals(state) 
+      // cartSlice.caseReducers.countTotals(state)
     },
 
-    reducePizza(state, action) {
+    reducePizza(state, action: PayloadAction<ICartPizza>) {
       const pizzaIndex = state.allCartPizza.findIndex(
         (pizza) =>
           pizza.id === action.payload.id &&
           pizza.size === action.payload.size &&
           pizza.type === action.payload.type,
       );
-      if (pizzaIndex !== -1 && state.allCartPizza[pizzaIndex].count > 1) {
-        state.allCartPizza[pizzaIndex].count--;
+
+      const pizza = state.allCartPizza[pizzaIndex];
+      if (pizzaIndex !== -1 && pizza.count > 1) {
+        pizza.count--;
       } else {
         state.allCartPizza.splice(pizzaIndex, 1);
       }
     },
 
-    removePizza(state, action) {
+    removePizza(state, action: PayloadAction<ICartPizza>) {
       state.allCartPizza = state.allCartPizza.filter(
         (pizza) =>
           !(
@@ -58,13 +61,16 @@ const cartSlice = createSlice({
     },
 
     setTotalPrice(state) {
-      const price = state.allCartPizza.reduce((total, pizza) => pizza.price * pizza.count + total, 0);
+      const price = state.allCartPizza.reduce(
+        (total, pizza) => pizza.price * pizza.count + total,
+        0,
+      );
       state.totalPrice = parseFloat(price.toFixed(2));
     },
   },
 });
 
-export const selectCart = (state) => state.cart;
+export const selectCart = (state: RootState) => state.cart;
 
 export const { addPizza, reducePizza, removePizza, clearCart, setTotalPrice } = cartSlice.actions;
 

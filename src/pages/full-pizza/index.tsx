@@ -11,7 +11,7 @@ type TFullPizza = {
 const FullPizza: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [fullPizza, setFullPizza] = useState<{ title: string; price: number }>();
+  const [fullPizza, setFullPizza] = useState<TFullPizza>();
 
   useEffect(() => {
     const getPizza = async () => {

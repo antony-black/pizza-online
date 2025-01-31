@@ -1,39 +1,51 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addPizza, setTotalPrice } from '../../redux/slices/cartSlice';
+import { addPizza, selectCart, setTotalPrice } from '../../redux/slices/cartSlice';
+import { AppDispatch } from '../../redux/store';
+import { ICartPizza } from '../../@types/cart';
 
-export const PizzaBlock = ({ id, title, types, sizes, price, category, rating }) => {
-  const { allCartPizza } = useSelector((state) => state.cart);
+export interface IPizzaBlockProps {
+  id: number;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+}
+
+export const PizzaBlock: React.FC<IPizzaBlockProps> = ({ id, title, types, sizes, price}) => {
+  const { allCartPizza } = useSelector(selectCart);
   const similarPizza = allCartPizza.filter((pizza) => pizza.id === id);
   const amount = similarPizza.reduce((total, pizza) => total + pizza.count, 0);
 
-  const dispatch = useDispatch();
-  const [currentSize, setCurrentSize] = useState(0);
-  const [currentThickness, setCurrentThickness] = useState(0);
+  const dispatch = useDispatch<AppDispatch>();
+  const [currentSize, setCurrentSize] = useState<number>(0);
+  const [currentThickness, setCurrentThickness] = useState<number>(0);
   const thicknessTypes = ['think', 'tradition'];
-  const pizzaToCart = {
+  
+  const pizzaToCart: ICartPizza = {
     id,
     title,
     price,
     type: thicknessTypes[currentThickness],
     size: sizes[currentSize],
+    count: 1
   };
 
   //rafce === const
   //rfce === function
   // vimbox, translation app
 
-  const handleAddPizza = () => {
+  const handleAddPizza = (): void => {
     dispatch(addPizza(pizzaToCart));
     dispatch(setTotalPrice());
   };
 
-  const handleThickness = (value) => {
+  const handleThickness = (value: number): void => {
     setCurrentThickness(value);
   };
 
-  const handleSize = (value) => {
+  const handleSize = (value: number): void => {
     setCurrentSize(value);
   };
 
@@ -73,7 +85,7 @@ export const PizzaBlock = ({ id, title, types, sizes, price, category, rating })
         <div className="pizza-block__price">{`from ${price}$`}</div>
         <button
           className="button button--outline button--add"
-          onClick={() => handleAddPizza(price)}>
+          onClick={() => handleAddPizza()}>
           <svg
             width="12"
             height="12"

@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setType } from '../../redux/slices/filterSlice';
+import { selectFilter, setType } from '../../redux/slices/filterSlice';
 import useOutsideClick from '../../hooks/useOutsideClick';
 
 export const Sort = () => {
-  const sort = useSelector((state) => state.filter?.sortType || '');
+  const {sortType} = useSelector(selectFilter);
   const dispatch = useDispatch();
-  const refSort = useRef();
+  const refSort = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   useOutsideClick(refSort, () => setIsOpen(false));
   const sortCategories = ['rating', 'price', 'title'];
@@ -34,7 +34,7 @@ export const Sort = () => {
           />
         </svg>
         <b>Sort by:</b>
-        <span>{sort}</span>
+        <span>{sortType}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
@@ -42,7 +42,7 @@ export const Sort = () => {
             {sortCategories.map((category) => (
               <li
                 key={category}
-                className={sort === category ? 'active' : ''}
+                className={sortType === category ? 'active' : ''}
                 onClick={() => dispatch(setType(category))}>
                 {category}
               </li>

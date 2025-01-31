@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addPizza, reducePizza, removePizza, setTotalPrice } from '../../redux/slices/cartSlice';
+import { ICartPizza } from '../../@types/cart';
 
-export const CartItem = (pizza) => {
+export const CartItem: React.FC<ICartPizza> = (pizza) => {
   const dispatch = useDispatch();
 
   const price = parseFloat((pizza.price * pizza.count).toFixed(2));

@@ -4,7 +4,12 @@ import { useDispatch } from 'react-redux';
 import { setPage } from '../../redux/slices/paginationSlice';
 import styles from './index.module.scss';
 
-const Pagination = ({ itemsPerPage, pageCount }) => {
+interface IPaginationProps {
+  itemsPerPage: number;
+  pageCount: number;
+}
+
+const Pagination: React.FC<IPaginationProps> = ({ itemsPerPage, pageCount }) => {
   const dispatch = useDispatch();
 
   return (

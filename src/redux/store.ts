@@ -4,7 +4,6 @@ import paginationReducer from './slices/paginationSlice';
 import cartSlice from './slices/cartSlice';
 import pizzaSlice from './slices/pizzaSlice';
 
-
 export const store = configureStore({
   reducer: {
     filter: filterReducer,
@@ -13,3 +12,6 @@ export const store = configureStore({
     pizza: pizzaSlice,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
