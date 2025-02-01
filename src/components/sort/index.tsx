@@ -1,14 +1,17 @@
-import { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectFilter, setType } from '../../redux/slices/filterSlice';
-import useOutsideClick from '../../hooks/useOutsideClick';
+import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { setType } from '../../redux/slices/filterSlice';
+import { useWhyDidYouUpdate } from 'ahooks';
 
-export const Sort = () => {
-  const {sortType} = useSelector(selectFilter);
+type TSort = {
+  sortType: string;
+};
+
+export const Sort: React.FC<TSort> = React.memo(({ sortType }) => {
+  useWhyDidYouUpdate('Sort', { sortType });
   const dispatch = useDispatch();
-  const refSort = useRef<HTMLDivElement>(null);
+  const sortRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  useOutsideClick(refSort, () => setIsOpen(false));
   const sortCategories = ['rating', 'price', 'title'];
 
   const handleOpenPopUp = () => {
@@ -19,8 +22,21 @@ export const Sort = () => {
     dispatch(setType(sortCategories[0]));
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
+        console.log(sortRef.current, event.composedPath());
+        setIsOpen(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div ref={refSort} className="sort" onClick={handleOpenPopUp}>
+    <div ref={sortRef} className="sort" onClick={handleOpenPopUp}>
       <div className="sort__label">
         <svg
           width="10"
@@ -52,4 +68,4 @@ export const Sort = () => {
       )}
     </div>
   );
-};
+});

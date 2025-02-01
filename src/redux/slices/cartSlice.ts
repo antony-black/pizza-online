@@ -25,7 +25,7 @@ const cartSlice = createSlice({
           ...action.payload,
         });
       }
-      // cartSlice.caseReducers.countTotals(state)
+      // cartSlice.caseReducers.setTotalPrice(state)
     },
 
     reducePizza(state, action: PayloadAction<ICartPizza>) {
@@ -39,9 +39,10 @@ const cartSlice = createSlice({
       const pizza = state.allCartPizza[pizzaIndex];
       if (pizzaIndex !== -1 && pizza.count > 1) {
         pizza.count--;
-      } else {
-        state.allCartPizza.splice(pizzaIndex, 1);
-      }
+      } 
+      // else {
+      //   state.allCartPizza.splice(pizzaIndex, 1);
+      // }
     },
 
     removePizza(state, action: PayloadAction<ICartPizza>) {

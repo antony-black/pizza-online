@@ -23,7 +23,7 @@ const Search: React.FC = () => {
 
   const handleClearInput = () => {
     setValue('');
-    dispatch(setSearch(value));
+    dispatch(setSearch(''));
     inputRef.current?.focus();
   };
 

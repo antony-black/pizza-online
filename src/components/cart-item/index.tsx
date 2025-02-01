@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addPizza, reducePizza, removePizza, setTotalPrice } from '../../redux/slices/cartSlice';
 import { ICartPizza } from '../../@types/cart';
+import clsx from 'clsx';
 
 export const CartItem: React.FC<ICartPizza> = (pizza) => {
   const dispatch = useDispatch();
@@ -39,8 +40,11 @@ export const CartItem: React.FC<ICartPizza> = (pizza) => {
         </p>
       </div>
       <div className="cart__item-count">
-        <div
-          className="button button--outline button--circle cart__item-count-minus"
+        <button
+          disabled={pizza.count === 1}
+          className={clsx('button button--outline button--circle cart__item-count-minus', {
+            'cart__item-count-minus': pizza.count === 1,
+          })}
           onClick={handleReducePizza}>
           <svg
             width="10"
@@ -57,9 +61,9 @@ export const CartItem: React.FC<ICartPizza> = (pizza) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{pizza.count}</b>
-        <div
+        <button
           className="button button--outline button--circle cart__item-count-plus"
           onClick={handleAddPizza}>
           <svg
@@ -77,7 +81,7 @@ export const CartItem: React.FC<ICartPizza> = (pizza) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price} $</b>

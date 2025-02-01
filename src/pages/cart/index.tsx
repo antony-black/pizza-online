@@ -124,7 +124,6 @@ export const Cart = () => {
                 strokeLinejoin="round"
               />
             </svg>
-
             <span>Back</span>
           </Link>
           <div className="button pay-btn">

@@ -1,3 +1,5 @@
+import { Status } from '../../enums/status';
+
 export interface IPizza {
   id: number;
   title: string;
@@ -9,5 +11,5 @@ export interface IPizza {
 
 export interface IPizzaState {
   allPizza: IPizza[];
-  status: 'loading' | 'success' | 'error';
+  status: Status;
 }
