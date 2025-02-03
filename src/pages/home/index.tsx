@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPizza, selectPizzaData } from '../../redux/slices/pizzaSlice';
-import { selectFilter } from '../../redux/slices/filterSlice';
+import { selectFilter } from '../../redux/filter/selectors';
 import { Categories } from '../../components/categories';
 import { PizzaBlock } from '../../components/pizza-block';
 import { Sort } from '../../components/sort';

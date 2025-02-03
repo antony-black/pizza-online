@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectFilter, setCategoryId } from '../../redux/slices/filterSlice';
+import { selectFilter } from '../../redux/filter/selectors';
+import { setCategoryId } from '../../redux/filter/slice';
 import { Category } from '../category';
 import { pizzaCategories } from '../../pizza-data/pizzaCategories';
 // import { useWhyDidYouUpdate } from 'ahooks';

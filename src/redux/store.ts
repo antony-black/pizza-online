@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import filterReducer from './slices/filterSlice';
+import filterReducer from './filter/slice';
 import paginationReducer from './slices/paginationSlice';
-import cartSlice from './cart/slice';
-import pizzaSlice from './slices/pizzaSlice';
+import cartReducer from './cart/slice';
+import pizzaReducer from './slices/pizzaSlice';
 
 export const store = configureStore({
   reducer: {
     filter: filterReducer,
     pagination: paginationReducer,
-    cart: cartSlice,
-    pizza: pizzaSlice,
+    cart: cartReducer,
+    pizza: pizzaReducer,
   },
 });
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { setType } from '../../redux/slices/filterSlice';
+import { setType } from '../../redux/filter/slice';
 
 type TSort = {
   sortType: string;
