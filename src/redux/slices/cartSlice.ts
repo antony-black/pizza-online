@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { ICartPizza, ICartState } from '../../@types/cart';
+import { calcTotalPrice, getCartFromLS } from '../../utils';
+
+const { cartItems, totalPrice } = getCartFromLS();
 
 const initialState: ICartState = {
-  allCartPizza: [],
-  totalPrice: 0,
+  allCartPizza: cartItems,
+  totalPrice: totalPrice,
 };
 
 const cartSlice = createSlice({
@@ -39,7 +42,7 @@ const cartSlice = createSlice({
       const pizza = state.allCartPizza[pizzaIndex];
       if (pizzaIndex !== -1 && pizza.count > 1) {
         pizza.count--;
-      } 
+      }
       // else {
       //   state.allCartPizza.splice(pizzaIndex, 1);
       // }
@@ -62,11 +65,12 @@ const cartSlice = createSlice({
     },
 
     setTotalPrice(state) {
-      const price = state.allCartPizza.reduce(
-        (total, pizza) => pizza.price * pizza.count + total,
-        0,
-      );
-      state.totalPrice = parseFloat(price.toFixed(2));
+      // const price = state.allCartPizza.reduce(
+      //   (total, pizza) => pizza.price * pizza.count + total,
+      //   0,
+      // );
+      // state.totalPrice = parseFloat(price.toFixed(2));
+      state.totalPrice = calcTotalPrice(state.allCartPizza);
     },
   },
 });

@@ -13,7 +13,7 @@ export interface IPizzaBlockProps {
   price: number;
 }
 
-export const PizzaBlock: React.FC<IPizzaBlockProps> = ({ id, title, types, sizes, price}) => {
+export const PizzaBlock: React.FC<IPizzaBlockProps> = ({ id, title, types, sizes, price }) => {
   const { allCartPizza } = useSelector(selectCart);
   const similarPizza = allCartPizza.filter((pizza) => pizza.id === id);
   const amount = similarPizza.reduce((total, pizza) => total + pizza.count, 0);
@@ -22,14 +22,14 @@ export const PizzaBlock: React.FC<IPizzaBlockProps> = ({ id, title, types, sizes
   const [currentSize, setCurrentSize] = useState<number>(0);
   const [currentThickness, setCurrentThickness] = useState<number>(0);
   const thicknessTypes = ['think', 'tradition'];
-  
+
   const pizzaToCart: ICartPizza = {
     id,
     title,
     price,
     type: thicknessTypes[currentThickness],
     size: sizes[currentSize],
-    count: 1
+    count: 1,
   };
 
   //rafce === const
@@ -83,9 +83,7 @@ export const PizzaBlock: React.FC<IPizzaBlockProps> = ({ id, title, types, sizes
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">{`from ${price}$`}</div>
-        <button
-          className="button button--outline button--add"
-          onClick={() => handleAddPizza()}>
+        <button className="button button--outline button--add" onClick={() => handleAddPizza()}>
           <svg
             width="12"
             height="12"

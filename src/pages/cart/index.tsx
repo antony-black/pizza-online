@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCart, selectCart } from '../../redux/slices/cartSlice';
 import { CartItem } from '../../components/cart-item';
 import { Link } from 'react-router-dom';
 import { CartEmpty } from '../../components/cart-empty';
 
-export const Cart = () => {
+export const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const { allCartPizza, totalPrice } = useSelector(selectCart);
+  console.log(allCartPizza);
 
   const amount = allCartPizza.reduce((total, pizza) => total + pizza.count, 0);
 
   const handleClearCart = () => {
     dispatch(clearCart());
+    localStorage.removeItem('cart');
   };
+
+    useEffect(() => {
+      localStorage.setItem('cart', JSON.stringify(allCartPizza));
+    }, [allCartPizza]);
 
   if (!totalPrice) {
     return <CartEmpty />;

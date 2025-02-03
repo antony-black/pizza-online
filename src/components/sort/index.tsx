@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { setType } from '../../redux/slices/filterSlice';
-import { useWhyDidYouUpdate } from 'ahooks';
 
 type TSort = {
   sortType: string;
 };
 
 export const Sort: React.FC<TSort> = React.memo(({ sortType }) => {
-  useWhyDidYouUpdate('Sort', { sortType });
   const dispatch = useDispatch();
   const sortRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +23,7 @@ export const Sort: React.FC<TSort> = React.memo(({ sortType }) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
-        console.log(sortRef.current, event.composedPath());
+        // console.log(sortRef.current, event.composedPath());
         setIsOpen(false);
       }
     };
