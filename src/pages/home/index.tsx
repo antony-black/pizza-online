@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPizza, selectPizzaData } from '../../redux/slices/pizzaSlice';
+import { fetchPizza } from '../../redux/pizza/asyncActions';
+import { selectPizzaData } from '../../redux/pizza/selectors';
 import { selectFilter } from '../../redux/filter/selectors';
 import { selectPagination } from '../../redux/pagination/selectors';
 import { AppDispatch } from '../../redux/store';
