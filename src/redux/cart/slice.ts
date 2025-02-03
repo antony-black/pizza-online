@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import { ICartPizza, ICartState } from '../../@types/cart';
-import { calcTotalPrice, getCartFromLS } from '../../utils';
+import { ICartPizza, ICartState } from '../cart/types';
+import CartService from '../../services/CartService';
 
-const { cartItems, totalPrice } = getCartFromLS();
+const { cartItems, totalPrice } = CartService.getCartFromLS();
 
 const initialState: ICartState = {
   allCartPizza: cartItems,
@@ -43,9 +42,6 @@ const cartSlice = createSlice({
       if (pizzaIndex !== -1 && pizza.count > 1) {
         pizza.count--;
       }
-      // else {
-      //   state.allCartPizza.splice(pizzaIndex, 1);
-      // }
     },
 
     removePizza(state, action: PayloadAction<ICartPizza>) {
@@ -65,17 +61,10 @@ const cartSlice = createSlice({
     },
 
     setTotalPrice(state) {
-      // const price = state.allCartPizza.reduce(
-      //   (total, pizza) => pizza.price * pizza.count + total,
-      //   0,
-      // );
-      // state.totalPrice = parseFloat(price.toFixed(2));
-      state.totalPrice = calcTotalPrice(state.allCartPizza);
+      state.totalPrice = CartService.calcTotalPrice(state.allCartPizza);
     },
   },
 });
-
-export const selectCart = (state: RootState) => state.cart;
 
 export const { addPizza, reducePizza, removePizza, clearCart, setTotalPrice } = cartSlice.actions;
 

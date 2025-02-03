@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addPizza, selectCart, setTotalPrice } from '../../redux/slices/cartSlice';
+import { addPizza, setTotalPrice } from '../../redux/cart/slice';
+import { selectCart } from '../../redux/cart/selectors';
 import { AppDispatch } from '../../redux/store';
-import { ICartPizza } from '../../@types/cart';
+import { ICartPizza } from '../../redux/cart/types';
 
 export interface IPizzaBlockProps {
   id: number;

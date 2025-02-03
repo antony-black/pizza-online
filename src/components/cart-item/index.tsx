@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addPizza, reducePizza, removePizza, setTotalPrice } from '../../redux/slices/cartSlice';
-import { ICartPizza } from '../../@types/cart';
+import { addPizza, reducePizza, removePizza, setTotalPrice } from '../../redux/cart/slice';
+import { ICartPizza } from '../../redux/cart/types';
 import clsx from 'clsx';
 
 export const CartItem: React.FC<ICartPizza> = (pizza) => {
