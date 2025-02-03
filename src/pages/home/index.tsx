@@ -1,7 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPizza, selectPizzaData } from '../../redux/slices/pizzaSlice';
 import { selectFilter } from '../../redux/filter/selectors';
+import { selectPagination } from '../../redux/pagination/selectors';
+import { AppDispatch } from '../../redux/store';
+
 import { Categories } from '../../components/categories';
 import { PizzaBlock } from '../../components/pizza-block';
 import { Sort } from '../../components/sort';
@@ -9,8 +13,6 @@ import Error from '../../components/error';
 import { FetchService } from '../../services/FetchService';
 import { API_URLS } from '../../api/URL';
 import Pagination from '../../components/pagination';
-import { selectPagination } from '../../redux/slices/paginationSlice';
-import { AppDispatch } from '../../redux/store';
 import { Status } from '../../enums/status';
 
 export const Home: React.FC = () => {
