@@ -11,7 +11,9 @@ function App() {
           <Route
             key={route.path}
             path={route.path}
-            element={<route.component />}
+            element={
+              route.element || <route.component />
+            }
             // exact={route.exact}
           />
         ))}
