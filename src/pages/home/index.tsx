@@ -19,12 +19,12 @@ import { Status } from '../../enums/status';
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { allPizza, status } = useSelector(selectPizzaData);
-  const {currentPage} = useSelector(selectPagination);
+  const { currentPage } = useSelector(selectPagination);
   const { categoryId, sortType, searchValue } = useSelector(selectFilter);
   const [totalCount, setTotalCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 4;
-  
+
   // TODO: add choosing by DESC/ASC
   const getUrl = (): string => {
     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
@@ -69,7 +69,7 @@ export const Home: React.FC = () => {
     <>
       <div className="content__top">
         <Categories />
-        <Sort sortType={sortType}/>
+        <Sort sortType={sortType} />
       </div>
       <h2 className="content__title">All pizza:</h2>
       <div className="content__items">
