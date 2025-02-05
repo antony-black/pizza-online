@@ -1,15 +1,3 @@
-// declare module '*.module.scss' {
-//   const classes: { [key: string]: string };
-//   export default classes;
-// }
-
-// declare module 'lodash.debounce' {
-//   import { DebouncedFunc } from 'lodash';
-//   function debounce(func: Function, wait?: number, options?: object): DebouncedFunc<Function>;
-//   export = debounce;
-// }
-
-
 declare module '*.scss' {
   const content: any;
   export default content;

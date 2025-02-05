@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URLS } from '../../api/URL';
 
@@ -47,7 +47,12 @@ const FullPizza: React.FC = () => {
       />
       <h4>{fullPizza.title}</h4>
       <p>DESCRIPTION</p>
-      <b>{fullPizza.price}$</b>
+      <div>{fullPizza.price}$</div>
+      <Link to="/">
+        <button className="button button--outline button--add">
+          <span>Back</span>
+        </button>
+      </Link>
     </div>
   );
 };

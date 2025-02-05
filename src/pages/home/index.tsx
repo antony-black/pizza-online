@@ -8,7 +8,7 @@ import { selectCart } from '../../redux/cart/selectors';
 import { selectPagination } from '../../redux/pagination/selectors';
 import { AppDispatch } from '../../redux/store';
 
-import { Categories, PizzaBlock, Pagination, Error, Sort, CartEmpty } from '../../components';
+import { Categories, PizzaBlock, Pagination, Error, Sort } from '../../components';
 
 import { FetchService } from '../../services/FetchService';
 import { API_URLS } from '../../api/URL';
