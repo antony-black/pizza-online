@@ -9,7 +9,7 @@ interface IPaginationProps {
   pageCount: number;
 }
 
-const Pagination: React.FC<IPaginationProps> = ({ itemsPerPage, pageCount }) => {
+export const Pagination: React.FC<IPaginationProps> = ({ itemsPerPage, pageCount }) => {
   const dispatch = useDispatch();
 
   return (
@@ -25,5 +25,3 @@ const Pagination: React.FC<IPaginationProps> = ({ itemsPerPage, pageCount }) => 
     />
   );
 };
-
-export default Pagination;

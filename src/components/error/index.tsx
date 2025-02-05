@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Error: React.FC = () => {
+export const Error: React.FC = () => {
   return (
         <div className="cart cart--empty">
           The error is happened <span>😕</span>
@@ -12,4 +12,3 @@ const Error: React.FC = () => {
   );
 };
 
-export default Error;
