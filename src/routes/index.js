@@ -5,7 +5,7 @@ const Cart = React.lazy(() => import(/* webpackChunkName: "Cart" */ '../pages/ca
 const FullPizza = React.lazy(() => import(/* webpackChunkName: "FullPizza" */ '../pages/full-pizza'));
 
 export const routes = [
-  { path: '', component: Home, exact: true },
+  { path: '', component: Home},
   {
     path: 'cart',
     element: (
@@ -13,7 +13,6 @@ export const routes = [
         <Cart />
       </Suspense>
     ),
-    exact: true,
   },
   {
     path: 'pizza/:id',
@@ -22,7 +21,6 @@ export const routes = [
         <FullPizza />
       </Suspense>
     ),
-    exact: true,
   },
   { path: '*', component: Home, exact: true },
 ];

@@ -4,23 +4,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPizza } from '../../redux/pizza/asyncActions';
 import { selectPizzaData } from '../../redux/pizza/selectors';
 import { selectFilter } from '../../redux/filter/selectors';
+import { selectCart } from '../../redux/cart/selectors';
 import { selectPagination } from '../../redux/pagination/selectors';
 import { AppDispatch } from '../../redux/store';
 
-import { Categories, PizzaBlock, Pagination, Error,Sort } from '../../components';
+import { Categories, PizzaBlock, Pagination, Error, Sort, CartEmpty } from '../../components';
 
 import { FetchService } from '../../services/FetchService';
 import { API_URLS } from '../../api/URL';
 import { Status } from '../../enums/status';
 
+
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+   const { allCartPizza } = useSelector(selectCart);
   const { allPizza, status } = useSelector(selectPizzaData);
   const { currentPage } = useSelector(selectPagination);
   const { categoryId, sortType, searchValue } = useSelector(selectFilter);
   const [totalCount, setTotalCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 4;
+
+      useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(allCartPizza));
+      }, [allCartPizza]);
 
   // TODO: add choosing by DESC/ASC
   const getUrl = (): string => {

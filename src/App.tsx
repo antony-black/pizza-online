@@ -14,7 +14,6 @@ function App() {
             element={
               route.element || <route.component />
             }
-            // exact={route.exact}
           />
         ))}
       </Route>

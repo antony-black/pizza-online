@@ -18,10 +18,6 @@ const Cart: React.FC = () => {
     localStorage.removeItem('cart');
   };
 
-    useEffect(() => {
-      localStorage.setItem('cart', JSON.stringify(allCartPizza));
-    }, [allCartPizza]);
-
   if (!totalPrice) {
     return <CartEmpty />;
   }
