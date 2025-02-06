@@ -2,8 +2,7 @@
   "name": "pizza_online",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/antony-black/pizza-online",
-  "proxy": "https://mockapi.io/projects/6780e3c485151f714b08546a",
+  "homepage": "https://antony-black.github.io/pizza-online",
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -28,7 +27,6 @@
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1",
     "sass": "^1.83.1",
-    "typescript": "^5.7.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -56,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
   }
 }
