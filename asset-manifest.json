@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/pizza-online/static/css/main.f25c214b.css",
+    "main.js": "/pizza-online/static/js/main.60d01ca2.js",
+    "Cart.js": "/pizza-online/static/js/Cart.8b8d7314.chunk.js",
+    "FullPizza.js": "/pizza-online/static/js/FullPizza.acbdc3c4.chunk.js",
+    "index.html": "/pizza-online/index.html",
+    "main.f25c214b.css.map": "/pizza-online/static/css/main.f25c214b.css.map",
+    "main.60d01ca2.js.map": "/pizza-online/static/js/main.60d01ca2.js.map",
+    "Cart.8b8d7314.chunk.js.map": "/pizza-online/static/js/Cart.8b8d7314.chunk.js.map",
+    "FullPizza.acbdc3c4.chunk.js.map": "/pizza-online/static/js/FullPizza.acbdc3c4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f25c214b.css",
+    "static/js/main.60d01ca2.js"
+  ]
+}
